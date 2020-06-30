@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -83,8 +83,23 @@ public class ProductController {
         return productRepository.newproduct();
     }
 
-    @PostMapping("/product/{idtype}/{idsup}")
-    public ResponseEntity<Product> createProduct(@PathVariable(value = "idtype") long idtype, @PathVariable(value = "idsup") long idsup, @Valid @RequestBody Product product) throws ResourceNotFoundException {
+//    @PostMapping("/product/{idtype}/{idsup}")
+//    public ResponseEntity<Product> createProduct(@PathVariable(value = "idtype") long idtype, @PathVariable(value = "idsup") long idsup, @Valid @RequestBody Product product) throws ResourceNotFoundException {
+//
+//        //Supplier supplier = supplierService.findSupplierById(idsup).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
+//        Category category = categoryService.findCategoryById(idtype).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
+//        //product.setSupplier(supplier);
+//        product.setCategory(category);
+//        //double a= product.getPrice();
+//        if(product.getDiscountPrice()==0){
+//            product.setDiscountPrice(product.getPrice());
+//        }
+//        productService.save(product);
+//        return new ResponseEntity<>(product, HttpStatus.CREATED);
+//    }
+
+    @PostMapping("/product/{idtype}")
+    public ResponseEntity<Product> createProduct(@PathVariable(value = "idtype") long idtype, @Valid @RequestBody Product product) throws ResourceNotFoundException {
 
         //Supplier supplier = supplierService.findSupplierById(idsup).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
         Category category = categoryService.findCategoryById(idtype).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
@@ -98,12 +113,62 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
+//    @PutMapping("/product/{id}/{idtype}/{idsup}")
+//    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") long id, @PathVariable(value = "idtype") long idtype, @PathVariable(value = "idsup") long idsup, @Valid @RequestBody Product product) throws ResourceNotFoundException {
+//        //Supplier supplier = supplierService.findSupplierById(idsup).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
+//        Category category = categoryService.findCategoryById(idtype).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
+//
+//        Product currentProduct= productService.findProductById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found"));
+//
+//        if(product.getColor()!=null){
+//            currentProduct.setColor(product.getColor());
+//        }
+//        if(product.getDescription()!=null){
+//            currentProduct.setDescription(product.getDescription());
+//        }
+//        if(product.getDiscountPrice()==0){
+//            currentProduct.setDiscountPrice(product.getPrice());
+//        }
+//        else {
+//            currentProduct.setDiscountPrice(product.getDiscountPrice());
+//        }
+//
+//        if(product.getMaterial()!=null){
+//            currentProduct.setMaterial(product.getMaterial());
+//        }
+//        if(product.getName()!=null){
+//            currentProduct.setName(product.getName());
+//        }
+//        if (product.getPrice()!=0){
+//            currentProduct.setPrice(product.getPrice());
+//        }
+//
+//        if(product.getQuantity()!=0){
+//            currentProduct.setQuantity(product.getQuantity());
+//        }
+//
+//        if(product.getSize()!=null){
+//            currentProduct.setSize(product.getSize());
+//        }
+//        if (category!=null){
+//            currentProduct.setCategory(product.getCategory());
+//        }
+////        if(supplier!=null){
+////            currentProduct.setSupplier(product.getSupplier());
+////        }
+//        if(product.getSupplier_id()!=0){
+//            currentProduct.setSupplier_id(product.getSupplier_id());
+//        }
+//
+//
+//        productService.save(currentProduct);
+//        return ResponseEntity.ok(currentProduct);
+//
+//    }
 
-    @PutMapping("/product/{id}/{idtype}/{idsup}")
-    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") long id, @PathVariable(value = "idtype") long idtype, @PathVariable(value = "idsup") long idsup, @Valid @RequestBody Product product) throws ResourceNotFoundException {
-        //Supplier supplier = supplierService.findSupplierById(idsup).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
-        Category category = categoryService.findCategoryById(idtype).orElseThrow(()-> new ResourceNotFoundException("Detail not found"));
-
+    @PutMapping("/product/{id}/{idtype}")
+    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") long id, @PathVariable(value = "idtype") long idtype, @Valid @RequestBody Product product) throws ResourceNotFoundException {
+        Category category = categoryService.findCategoryById(idtype).orElseThrow(()-> new ResourceNotFoundException("Product not found"));
         Product currentProduct= productService.findProductById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found"));
 
         if(product.getColor()!=null){
@@ -137,15 +202,14 @@ public class ProductController {
             currentProduct.setSize(product.getSize());
         }
         if (category!=null){
-            currentProduct.setCategory(product.getCategory());
+
+            currentProduct.setCategory(category);
+            //currentProduct.setCategory(product.getCategory());
+            //logger.info(product.getCategory());
         }
-//        if(supplier!=null){
-//            currentProduct.setSupplier(product.getSupplier());
-//        }
         if(product.getSupplier_id()!=0){
             currentProduct.setSupplier_id(product.getSupplier_id());
         }
-
 
         productService.save(currentProduct);
         return ResponseEntity.ok(currentProduct);
