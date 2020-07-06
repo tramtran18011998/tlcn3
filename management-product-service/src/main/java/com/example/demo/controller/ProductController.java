@@ -357,4 +357,15 @@ public class ProductController {
         return productService.findAll(page, pageNum);
     }
 
+    //decrease quantity product from cart(add) for transaction-service
+    @PutMapping("/productquantity/{id}/{amount}")
+    public ResponseEntity<Product> updateQuantityAfter(@PathVariable(value = "id") long id, @PathVariable(value = "amount") long amount) throws ResourceNotFoundException {
+        Product product=productService.findProductById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found"));
+        long amountafter =0;
+        amountafter = product.getQuantity() - amount;
+        product.setQuantity(amountafter);
+        productService.save(product);
+        return ResponseEntity.ok(product);
+    }
+
 }
