@@ -33,8 +33,8 @@ public class User extends DateAudit implements Serializable {
 
     private String imageUrl;
 
-    @Column(nullable = false)
-    private Boolean emailVerified = false;
+//    @Column
+//    private Boolean emailVerified = false;
 
     @JsonIgnore
     private String password;
