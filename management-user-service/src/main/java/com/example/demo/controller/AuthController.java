@@ -33,7 +33,7 @@ import java.util.Collections;
 import java.util.Date;
 
 @RestController
-//@RequestMapping("/api")
+@RequestMapping("/auth")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
